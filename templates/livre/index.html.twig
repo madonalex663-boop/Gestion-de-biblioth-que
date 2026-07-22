@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+{% block title %}Livres{% endblock %}
+{% block body %}
+    <h2>Liste des livres</h2>
+
+    <form class="search-bar" action="{{ path('livre_recherche') }}" method="get">
+        <input type="text" name="q" placeholder="Rechercher un livre, un auteur, une catégorie...">
+        <button class="btn btn-accent" type="submit">🔍 Rechercher</button>
+    </form>
+
+    <p><a class="btn btn-primary" href="{{ path('livre_new') }}">+ Ajouter un livre</a></p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Titre</th><th>Auteur</th><th>Catégorie</th><th>Disponibilité</th><th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for livre in livres %}
+            <tr>
+                <td>{{ livre.titre }}</td>
+                <td>{{ livre.auteur }}</td>
+                <td>{{ livre.categorie }}</td>
+                <td>
+                    {% if livre.disponible %}
+                        <span class="badge badge-ok">Disponible</span>
+                    {% else %}
+                        <span class="badge badge-ko">Emprunté</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a class="btn btn-outline" href="{{ path('livre_show', {id: livre.id}) }}">Voir</a>
+                    <a class="btn btn-primary" href="{{ path('livre_edit', {id: livre.id}) }}">Modifier</a>
+                    <form class="form-inline" method="post" action="{{ path('livre_delete', {id: livre.id}) }}" onsubmit="return confirm('Supprimer ce livre ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ livre.id) }}">
+                        <button class="btn btn-danger" type="submit">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr><td colspan="5">Aucun livre enregistré.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

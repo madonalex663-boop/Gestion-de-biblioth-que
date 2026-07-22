@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ livre.titre }}{% endblock %}
+{% block body %}
+    <h2>{{ livre.titre }}</h2>
+    <div class="card">
+        <p><strong>ISBN :</strong> {{ livre.isbn ?? 'Non renseigné' }}</p>
+        <p><strong>Date d'édition :</strong> {{ livre.dateEdition ? livre.dateEdition|date('d/m/Y') : 'Non renseignée' }}</p>
+        <p><strong>Auteur :</strong> {{ livre.auteur }}</p>
+        <p><strong>Catégorie :</strong> {{ livre.categorie }}</p>
+        <p><strong>Disponibilité :</strong>
+            {% if livre.disponible %}
+                <span class="badge badge-ok">Disponible</span>
+            {% else %}
+                <span class="badge badge-ko">Emprunté</span>
+            {% endif %}
+        </p>
+    </div>
+    <a class="btn btn-primary" href="{{ path('livre_edit', {id: livre.id}) }}">Modifier</a>
+    <a class="btn btn-outline" href="{{ path('livre_index') }}">Retour à la liste</a>
+{% endblock %}

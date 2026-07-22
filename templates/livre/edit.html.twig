@@ -1,0 +1,6 @@
+{% extends 'base.html.twig' %}
+{% block title %}Modifier un livre{% endblock %}
+{% block body %}
+    <h2>Modifier « {{ livre.titre }} »</h2>
+    {{ include('livre/_form.html.twig') }}
+{% endblock %}

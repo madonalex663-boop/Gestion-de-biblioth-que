@@ -1,0 +1,6 @@
+{% extends 'base.html.twig' %}
+{% block title %}Modifier un auteur{% endblock %}
+{% block body %}
+    <h2>Modifier « {{ auteur.prenom }} {{ auteur.nom }} »</h2>
+    {{ include('auteur/_form.html.twig') }}
+{% endblock %}

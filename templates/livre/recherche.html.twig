@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+{% block title %}Recherche{% endblock %}
+{% block body %}
+    <h2>Résultats de recherche{% if terme %} pour « {{ terme }} »{% endif %}</h2>
+
+    <form class="search-bar" action="{{ path('livre_recherche') }}" method="get">
+        <input type="text" name="q" value="{{ terme }}" placeholder="Rechercher un livre, un auteur, une catégorie...">
+        <button class="btn btn-accent" type="submit">🔍 Rechercher</button>
+    </form>
+
+    <table>
+        <thead>
+        <tr><th>Titre</th><th>Auteur</th><th>Catégorie</th><th>Disponibilité</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+        {% for livre in livres %}
+            <tr>
+                <td>{{ livre.titre }}</td>
+                <td>{{ livre.auteur }}</td>
+                <td>{{ livre.categorie }}</td>
+                <td>
+                    {% if livre.disponible %}
+                        <span class="badge badge-ok">Disponible</span>
+                    {% else %}
+                        <span class="badge badge-ko">Emprunté</span>
+                    {% endif %}
+                </td>
+                <td><a class="btn btn-outline" href="{{ path('livre_show', {id: livre.id}) }}">Voir</a></td>
+            </tr>
+        {% else %}
+            <tr><td colspan="5">Aucun résultat trouvé.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

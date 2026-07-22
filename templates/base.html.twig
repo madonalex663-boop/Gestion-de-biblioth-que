@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Gestion de Bibliothèque{% endblock %}</title>
+    <style>
+        :root {
+            --primary: #2c3e91;
+            --primary-light: #4a5fc1;
+            --accent: #f0a500;
+            --bg: #f4f6fb;
+            --text: #23263b;
+            --border: #dfe3ef;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: #fff;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 { margin: 0; font-size: 1.4rem; }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 18px;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+        nav a:hover { opacity: 1; text-decoration: underline; }
+        main { padding: 30px; max-width: 1100px; margin: 0 auto; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: var(--primary); color: #fff; }
+        tr:hover { background: #f0f2fa; }
+        .btn {
+            display: inline-block;
+            padding: 8px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary { background: var(--primary); color: #fff; }
+        .btn-accent { background: var(--accent); color: #fff; }
+        .btn-danger { background: #d9534f; color: #fff; }
+        .btn-outline { background: #fff; border: 1px solid var(--primary); color: var(--primary); }
+        form.form-inline { display: inline; }
+        .flash { padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; }
+        .flash-success { background: #d7f5df; color: #1e6b3a; }
+        .card { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        label { font-weight: 600; display: block; margin-top: 12px; }
+        input[type=text], input[type=date], textarea, select {
+            width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; margin-top: 4px;
+        }
+        .search-bar { display: flex; gap: 10px; margin-bottom: 20px; }
+        .search-bar input { flex: 1; }
+        .badge { padding: 3px 9px; border-radius: 12px; font-size: 0.8rem; }
+        .badge-ok { background: #d7f5df; color: #1e6b3a; }
+        .badge-ko { background: #fbe0df; color: #a12c27; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>📚 Gestion de Bibliothèque</h1>
+    <nav>
+        <a href="{{ path('app_home') }}">Accueil</a>
+        <a href="{{ path('livre_index') }}">Livres</a>
+        <a href="{{ path('categorie_index') }}">Catégories</a>
+        <a href="{{ path('auteur_index') }}">Auteurs</a>
+        <a href="{{ path('emprunt_index') }}">Emprunts</a>
+    </nav>
+</header>
+<main>
+    {% for message in app.flashes('success') %}
+        <div class="flash flash-success">{{ message }}</div>
+    {% endfor %}
+    {% block body %}{% endblock %}
+</main>
+</body>
+</html>

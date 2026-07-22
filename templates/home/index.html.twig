@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+{% block title %}Accueil{% endblock %}
+{% block body %}
+    <h2>Tableau de bord</h2>
+    <div style="display:flex; gap:20px; flex-wrap:wrap;">
+        <div class="card" style="flex:1; min-width:150px; text-align:center;">
+            <h3>{{ nbLivres }}</h3>
+            <p>Livres</p>
+        </div>
+        <div class="card" style="flex:1; min-width:150px; text-align:center;">
+            <h3>{{ nbAuteurs }}</h3>
+            <p>Auteurs</p>
+        </div>
+        <div class="card" style="flex:1; min-width:150px; text-align:center;">
+            <h3>{{ nbCategories }}</h3>
+            <p>Catégories</p>
+        </div>
+        <div class="card" style="flex:1; min-width:150px; text-align:center;">
+            <h3>{{ empruntsEnCours|length }}</h3>
+            <p>Emprunts en cours</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Emprunts en cours</h3>
+        {% if empruntsEnCours|length == 0 %}
+            <p>Aucun emprunt en cours.</p>
+        {% else %}
+            <table>
+                <thead>
+                <tr><th>Livre</th><th>Emprunteur</th><th>Retour prévu</th></tr>
+                </thead>
+                <tbody>
+                {% for e in empruntsEnCours %}
+                    <tr>
+                        <td>{{ e.livre }}</td>
+                        <td>{{ e.emprunteur }}</td>
+                        <td>{{ e.dateRetourPrevue ? e.dateRetourPrevue|date('d/m/Y') : '' }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}

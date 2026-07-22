@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% block title %}Emprunts{% endblock %}
+{% block body %}
+    <h2>Liste des emprunts</h2>
+    <p><a class="btn btn-primary" href="{{ path('emprunt_new') }}">+ Nouvel emprunt</a></p>
+    <table>
+        <thead>
+        <tr><th>Livre</th><th>Emprunteur</th><th>Date emprunt</th><th>Retour prévu</th><th>Statut</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+        {% for emprunt in emprunts %}
+            <tr>
+                <td>{{ emprunt.livre }}</td>
+                <td>{{ emprunt.emprunteur }}</td>
+                <td>{{ emprunt.dateEmprunt ? emprunt.dateEmprunt|date('d/m/Y') : '' }}</td>
+                <td>{{ emprunt.dateRetourPrevue ? emprunt.dateRetourPrevue|date('d/m/Y') : '' }}</td>
+                <td>
+                    {% if emprunt.rendu %}
+                        <span class="badge badge-ok">Rendu le {{ emprunt.dateRetourEffective|date('d/m/Y') }}</span>
+                    {% else %}
+                        <span class="badge badge-ko">En cours</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if not emprunt.rendu %}
+                        <form class="form-inline" method="post" action="{{ path('emprunt_retour', {id: emprunt.id}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('retour' ~ emprunt.id) }}">
+                            <button class="btn btn-accent" type="submit">Marquer rendu</button>
+                        </form>
+                    {% endif %}
+                    <form class="form-inline" method="post" action="{{ path('emprunt_delete', {id: emprunt.id}) }}" onsubmit="return confirm('Supprimer cet emprunt ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ emprunt.id) }}">
+                        <button class="btn btn-danger" type="submit">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr><td colspan="6">Aucun emprunt.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

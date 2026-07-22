@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block title %}Auteurs{% endblock %}
+{% block body %}
+    <h2>Liste des auteurs</h2>
+    <p><a class="btn btn-primary" href="{{ path('auteur_new') }}">+ Ajouter un auteur</a></p>
+    <table>
+        <thead><tr><th>Nom</th><th>Prénom</th><th>Nb livres</th><th>Actions</th></tr></thead>
+        <tbody>
+        {% for auteur in auteurs %}
+            <tr>
+                <td>{{ auteur.nom }}</td>
+                <td>{{ auteur.prenom }}</td>
+                <td>{{ auteur.livres|length }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('auteur_edit', {id: auteur.id}) }}">Modifier</a>
+                    <form class="form-inline" method="post" action="{{ path('auteur_delete', {id: auteur.id}) }}" onsubmit="return confirm('Supprimer cet auteur ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ auteur.id) }}">
+                        <button class="btn btn-danger" type="submit">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr><td colspan="4">Aucun auteur.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
